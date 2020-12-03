@@ -113,6 +113,37 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
+        itemList.add(new Item("Send Action Beacon(Search)") {
+            @Override
+            public void collect() {
+                Bundle bundle = new Bundle();
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("search_string", "美白");
+                    bundle.putString(OmniAnalytics.PayloadType.EVENT_LABEL, jsonObject.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_ACTION, "search");
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_CATEGORY, "search");
+                OmniAnalytics.getInstance(MainActivity.this).logEvent(OmniAnalytics.HitType.EVENT, bundle);
+            }
+        });
+
+        itemList.add(new Item("Send Action Beacon(json string for Search)") {
+            @Override
+            public void collect() {
+                Bundle bundle = new Bundle();
+
+                String jsonString = "{\"search_string\":\"美白\"}";
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_LABEL, jsonString);
+
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_ACTION, "search");
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_CATEGORY, "search");
+                OmniAnalytics.getInstance(MainActivity.this).logEvent(OmniAnalytics.HitType.EVENT, bundle);
+            }
+        });
+
         itemList.add(new Item("Send Action Beacon") {
             @Override
             public void collect() {
