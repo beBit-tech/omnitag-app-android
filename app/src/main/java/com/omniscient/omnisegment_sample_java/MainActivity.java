@@ -11,11 +11,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.omniscient.omnisegment_java.OmniAnalytics;
 import com.omniscient.omnisegment_java.tools.beacon.CompleteRegistration;
 import com.omniscient.omnisegment_java.tools.beacon.Impression;
@@ -23,6 +26,7 @@ import com.omniscient.omnisegment_java.tools.beacon.Product;
 import com.omniscient.omnisegment_java.tools.beacon.Promotion;
 import com.omniscient.omnisegment_sample_java.tools.adapter.RecycleAdapter;
 import com.omniscient.omnisegment_sample_java.tools.model.Item;
+import com.omniscient.omnisegment_sample_java.tools.model.OmniSearchKeyword;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -109,6 +113,21 @@ public class MainActivity extends AppCompatActivity{
             public void collect() {
                 Bundle bundle = new Bundle();
                 bundle.putString(OmniAnalytics.PayloadType.CONTENT_GROUP, "Home");
+                OmniAnalytics.getInstance(MainActivity.this).logEvent(OmniAnalytics.HitType.EVENT, bundle);
+            }
+        });
+
+        itemList.add(new Item("Send Action Beacon(Search from Gson)") {
+            @Override
+            public void collect() {
+                OmniSearchKeyword keywordBean = new OmniSearchKeyword("美白");
+                Gson gson=  new GsonBuilder().create();
+                String jsonString = gson.toJson(keywordBean);
+
+                Bundle bundle = new Bundle();
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_LABEL, jsonString);
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_ACTION, "search");
+                bundle.putString(OmniAnalytics.PayloadType.EVENT_CATEGORY, "search");
                 OmniAnalytics.getInstance(MainActivity.this).logEvent(OmniAnalytics.HitType.EVENT, bundle);
             }
         });
