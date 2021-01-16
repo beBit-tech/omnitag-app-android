@@ -399,7 +399,6 @@ public class MainActivity extends AppCompatActivity{
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Bundle bundle = new Bundle();
                 bundle.putString(OmniAnalytics.PayloadType.EVENT_ACTION, OmniAnalytics.EventActionType.CLICK_CHECKOUT);
-                bundle.putString(OmniAnalytics.PayloadType.PRODUCT_ACTION, "custom_product_action");
                 bundle.putInt(OmniAnalytics.PayloadType.CHECKOUT_STEP, position);
                 bundle.putString(OmniAnalytics.PayloadType.CHECKOUT_STEP_OPTION, checkoutArray[position]);
                 OmniAnalytics.getInstance(MainActivity.this).logEvent(OmniAnalytics.HitType.EVENT, bundle);
